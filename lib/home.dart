@@ -1,8 +1,16 @@
 import 'package:flutter_calculator/buttons.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Home extends StatefulWidget {
+ const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  var userInput = "";
+  var answer = "";
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +24,11 @@ class Home extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("First Number", style: TextStyle(fontSize: 32)),
-                  Text("Second Number", style: TextStyle(fontSize: 32)),
+                  Text(
+                    userInput,
+                    style: TextStyle(fontSize: 32, color: Colors.white),
+                  ),
+                  Text(answer, style: TextStyle(fontSize: 32, color: Colors.white)),
                 ],
               ),
             ),
@@ -31,37 +42,78 @@ class Home extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      MyButtons(text: 'AC', onPressed: () {}),
-                      MyButtons(text: '+/-', onPressed: () {}),
-                      MyButtons(text: '%', onPressed: () {}),
+                      MyButtons(text: 'AC', onPressed: () {
+                          userInput = '';
+                          setState(() {});
+
+                      }),
+                      MyButtons(text: '+/-', onPressed: () {
+                          userInput += '+/-';
+                          setState(() {});
+
+                      }),
+                      MyButtons(
+                        text: '%',
+                        onPressed: () {
+                          userInput += '%';
+                          setState(() {});
+                        },
+                      ),
                       MyButtons(
                         text: '/',
                         mycolor: const Color.fromARGB(255, 233, 126, 3),
-                        onPressed: () {},
+                        onPressed: () {
+                          userInput += '/';
+                          setState(() {});
+                        },
                       ),
                     ],
                   ),
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      MyButtons(text: '7', onPressed: () {}),
-                      MyButtons(text: '8', onPressed: () {}),
-                      MyButtons(text: '9', onPressed: () {}),
+                      MyButtons(text: '7', onPressed: () {
+                          userInput += '7';
+                            setState(() {});
+                      }),
+                      MyButtons(text: '8', onPressed: () {
+                          userInput += '8';
+                            setState(() {});
+                      }),
+                      MyButtons(text: '9', onPressed: () {
+                          userInput += '9';
+                            setState(() {});
+                      }),
                       MyButtons(
                         text: 'X',
                         mycolor: const Color.fromARGB(255, 233, 126, 3),
-                        onPressed: () {},
+                        onPressed: () {
+                          userInput += 'X';
+                            setState(() {});
+                        },
                       ),
                     ],
                   ),
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      MyButtons(text: '4', onPressed: () {}),
-                      MyButtons(text: '5', onPressed: () {}),
-                      MyButtons(text: '6', onPressed: () {}),
+                      MyButtons(text: '4', onPressed: () {
+                          userInput += '4';
+                            setState(() {});
+                      }),
+                      MyButtons(text: '5', onPressed: () {
+                          userInput += '5';
+                            setState(() {});
+                      }),
+                      MyButtons(text: '6', onPressed: () {
+                          userInput += '6';
+                            setState(() {});
+                      }),
                       MyButtons(
-                        onPressed: () {},
+                        onPressed: () {
+                          userInput += '-';
+                            setState(() {});
+                        },
                         text: '-',
                         mycolor: const Color.fromARGB(255, 233, 126, 3),
                       ),
@@ -70,26 +122,50 @@ class Home extends StatelessWidget {
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      MyButtons(text: '1', onPressed: () {}),
-                      MyButtons(text: '2', onPressed: () {}),
-                      MyButtons(text: '3', onPressed: () {}),
+                      MyButtons(text: '1', onPressed: () {
+                          userInput += '1';
+                            setState(() {});
+                      }),
+                      MyButtons(text: '2', onPressed: () {
+                          userInput += '2';
+                            setState(() {});
+                      }),
+                      MyButtons(text: '3', onPressed: () {
+                          userInput += '3';
+                            setState(() {});
+                      }),
                       MyButtons(
                         text: '+',
                         mycolor: const Color.fromARGB(255, 233, 126, 3),
-                        onPressed: () {},
+                        onPressed: () {
+                          userInput += '+';
+                            setState(() {});
+                        },
                       ),
                     ],
                   ),
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      MyButtons(text: '0', onPressed: () {}),
-                      MyButtons(text: '.', onPressed: () {}),
-                      MyButtons(text: 'Del', onPressed: () {}),
+                      MyButtons(text: '0', onPressed: () {
+                          userInput += '0';
+                            setState(() {});
+                      }),
+                      MyButtons(text: '.', onPressed: () {
+                          userInput += '.';
+                            setState(() {});
+                      }),
+                      MyButtons(text: 'Del', onPressed: () {
+                          userInput = userInput.substring(0, userInput.length - 1);
+                            setState(() {});
+                      }),
                       MyButtons(
                         text: '=',
                         mycolor: const Color.fromARGB(255, 233, 126, 3),
-                        onPressed: () {},
+                        onPressed: () {
+                           userInput += '=';
+                           setState(() {});
+                        },
                       ),
                     ],
                   ),
