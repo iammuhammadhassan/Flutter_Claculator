@@ -18,7 +18,7 @@ class MyButtons extends StatelessWidget {
         onTap: onPressed,
         child: Container(
           decoration: BoxDecoration(color: mycolor, shape: BoxShape.circle),
-          height: 80,
+          height: 90,
           child: Center(
             child: Text(
               text,

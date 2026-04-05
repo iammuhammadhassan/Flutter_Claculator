@@ -1,8 +1,9 @@
 import 'package:flutter_calculator/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class Home extends StatefulWidget {
- const Home({super.key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -12,8 +13,44 @@ class _HomeState extends State<Home> {
   var userInput = "";
   var answer = "";
 
+  bool _isOperator(String ch) {
+    return ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '%';
+  }
+
   @override
   Widget build(BuildContext context) {
+    void equalPressed() {
+      if (userInput.isEmpty) {
+        answer = '';
+        return;
+      }
+
+      String finalUserInput = userInput
+          .replaceAll('X', '*')
+          .replaceAll('x', '*')
+          .trim();
+
+      if (finalUserInput.isEmpty ||
+          _isOperator(finalUserInput[finalUserInput.length - 1])) {
+        answer = 'Invalid expression';
+        return;
+      }
+
+      try {
+        // ignore: deprecated_member_use
+        Parser p = Parser();
+        Expression exp = p.parse(finalUserInput);
+        ContextModel cm = ContextModel();
+        // ignore: deprecated_member_use
+        double eval = exp.evaluate(EvaluationType.REAL, cm);
+        answer = eval.toString();
+      } on FormatException {
+        answer = 'Invalid expression';
+      } catch (_) {
+        answer = 'Error';
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -23,12 +60,19 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                  ),
                   Text(
                     userInput,
                     style: TextStyle(fontSize: 32, color: Colors.white),
                   ),
-                  Text(answer, style: TextStyle(fontSize: 32, color: Colors.white)),
+                  Text(
+                    answer,
+                    style: TextStyle(fontSize: 32, color: Colors.white),
+                  ),
                 ],
               ),
             ),
@@ -42,16 +86,23 @@ class _HomeState extends State<Home> {
                 children: [
                   Row(
                     children: [
-                      MyButtons(text: 'AC', onPressed: () {
+                      MyButtons(
+                        text: 'AC',
+                        onPressed: () {
                           userInput = '';
+                          answer = '';
                           setState(() {});
-
-                      }),
-                      MyButtons(text: '+/-', onPressed: () {
-                          userInput += '+/-';
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      MyButtons(
+                        text: 'Ans',
+                        onPressed: () {
+                          userInput += answer;
                           setState(() {});
-
-                      }),
+                        },
+                      ),
+                      SizedBox(width: 10),
                       MyButtons(
                         text: '%',
                         onPressed: () {
@@ -59,6 +110,7 @@ class _HomeState extends State<Home> {
                           setState(() {});
                         },
                       ),
+                        SizedBox(width: 10),
                       MyButtons(
                         text: '/',
                         mycolor: const Color.fromARGB(255, 233, 126, 3),
@@ -72,24 +124,36 @@ class _HomeState extends State<Home> {
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      MyButtons(text: '7', onPressed: () {
+                      MyButtons(
+                        text: '7',
+                        onPressed: () {
                           userInput += '7';
-                            setState(() {});
-                      }),
-                      MyButtons(text: '8', onPressed: () {
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      MyButtons(
+                        text: '8',
+                        onPressed: () {
                           userInput += '8';
-                            setState(() {});
-                      }),
-                      MyButtons(text: '9', onPressed: () {
+                          setState(() {});
+                        },
+                      ),
+                        SizedBox(width: 10),
+                      MyButtons(
+                        text: '9',
+                        onPressed: () {
                           userInput += '9';
-                            setState(() {});
-                      }),
+                          setState(() {});
+                        },
+                      ),
+                        SizedBox(width: 10),
                       MyButtons(
                         text: 'X',
                         mycolor: const Color.fromARGB(255, 233, 126, 3),
                         onPressed: () {
-                          userInput += 'X';
-                            setState(() {});
+                          userInput += 'x';
+                          setState(() {});
                         },
                       ),
                     ],
@@ -97,22 +161,34 @@ class _HomeState extends State<Home> {
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      MyButtons(text: '4', onPressed: () {
+                      MyButtons(
+                        text: '4',
+                        onPressed: () {
                           userInput += '4';
-                            setState(() {});
-                      }),
-                      MyButtons(text: '5', onPressed: () {
+                          setState(() {});
+                        },
+                      ),
+                        SizedBox(width: 10),
+                      MyButtons(
+                        text: '5',
+                        onPressed: () {
                           userInput += '5';
-                            setState(() {});
-                      }),
-                      MyButtons(text: '6', onPressed: () {
+                          setState(() {});
+                        },
+                      ),
+                          SizedBox(width: 10),
+                      MyButtons(
+                        text: '6',
+                        onPressed: () {
                           userInput += '6';
-                            setState(() {});
-                      }),
+                          setState(() {});
+                        },
+                      ),
+                          SizedBox(width: 10),
                       MyButtons(
                         onPressed: () {
                           userInput += '-';
-                            setState(() {});
+                          setState(() {});
                         },
                         text: '-',
                         mycolor: const Color.fromARGB(255, 233, 126, 3),
@@ -122,24 +198,36 @@ class _HomeState extends State<Home> {
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      MyButtons(text: '1', onPressed: () {
+                      MyButtons(
+                        text: '1',
+                        onPressed: () {
                           userInput += '1';
-                            setState(() {});
-                      }),
-                      MyButtons(text: '2', onPressed: () {
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(width: 10),  
+                      MyButtons(
+                        text: '2',
+                        onPressed: () {
                           userInput += '2';
-                            setState(() {});
-                      }),
-                      MyButtons(text: '3', onPressed: () {
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      MyButtons(
+                        text: '3',
+                        onPressed: () {
                           userInput += '3';
-                            setState(() {});
-                      }),
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(width: 10),
                       MyButtons(
                         text: '+',
                         mycolor: const Color.fromARGB(255, 233, 126, 3),
                         onPressed: () {
                           userInput += '+';
-                            setState(() {});
+                          setState(() {});
                         },
                       ),
                     ],
@@ -147,24 +235,42 @@ class _HomeState extends State<Home> {
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      MyButtons(text: '0', onPressed: () {
+                      MyButtons(
+                        text: '0',
+                        onPressed: () {
                           userInput += '0';
-                            setState(() {});
-                      }),
-                      MyButtons(text: '.', onPressed: () {
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      MyButtons(
+                        text: '.',
+                        onPressed: () {
                           userInput += '.';
-                            setState(() {});
-                      }),
-                      MyButtons(text: 'Del', onPressed: () {
-                          userInput = userInput.substring(0, userInput.length - 1);
-                            setState(() {});
-                      }),
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      MyButtons(
+                        text: 'Del',
+                        onPressed: () {
+                          if (userInput.isNotEmpty) {
+                            userInput = userInput.substring(
+                              0,
+                              userInput.length - 1,
+                            );
+                          }
+                          setState(() {});
+                        },
+                      ),
+                        SizedBox(width: 10),
                       MyButtons(
                         text: '=',
                         mycolor: const Color.fromARGB(255, 233, 126, 3),
                         onPressed: () {
-                           userInput += '=';
-                           setState(() {});
+                          equalPressed();
+                          userInput = "";
+                          setState(() {});
                         },
                       ),
                     ],
